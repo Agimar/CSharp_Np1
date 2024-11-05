@@ -11,10 +11,10 @@ namespace liveCSharp.App
         /**
          * Método construtor         
          */
-        public Aluno(int id=0, string name=null, string email=null, string telefone=null, string senha=null, bool ativo=false)
+        public Aluno(int id=0, string nome=null, string email=null, string telefone=null, string senha=null, bool ativo=false)
         {
             Id = id;
-            Name = name;
+            Nome = nome;
             Email = email;
             Telefone = telefone;
             Senha = senha;
@@ -23,16 +23,44 @@ namespace liveCSharp.App
 
         // propriedades
         public int Id { get; set; }    
-        public string Name { get; set; }
+        public string Nome { get; set; }
         public string Email { get; set; }
         public string Telefone { get; set; }
         public string Senha { get; set; }
-        public bool Ativo { get; set; }
-
+        public 
+            bool Ativo { get; set; }
 
         public void Inserir()
         {
             var cmd = Conexao.Abrir();
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.CommandText = "insert alunos values(null,'"+Nome+"','"+Email+"','"+Telefone+"',md5('"+Senha+"'),1)";
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = "select @@identity";
+            Id = Convert.ToInt32(cmd.ExecuteScalar()); // 3 possibilidades = (int)cast - int.parse() - Convert.ToInt32()
+        }
+
+        public List<Aluno> ListarAlunos()
+        {
+            List<Aluno> lista = new List<Aluno>();
+            var cmd = Conexao.Abrir();
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.CommandText = "select * from alunos"; 
+            var dr = cmd.ExecuteReader();
+
+            while(dr.Read())
+            {
+                lista.Add(new Aluno(
+                    Convert.ToInt32(dr.GetValue(0)),
+                    dr.GetString(1),
+                    dr.GetString(2),
+                    dr.GetString(3),    
+                    dr.GetString(4),
+                    dr.GetBoolean(5)
+                )); 
+            }
+            return lista;
         }
 
     }
