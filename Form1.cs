@@ -35,8 +35,8 @@ namespace liveCSharp
             MessageBox.Show("Aluno inserido com sucesso!");
 
             LimparCampos();
-
         }
+
         public void LimparCampos()
         {
             txtId.Clear();
@@ -55,15 +55,39 @@ namespace liveCSharp
 
         private void btnListar_Click(object sender, EventArgs e)
         {
-            lstLista.Items.Clear();
+            dgvLista.Rows.Clear();
 
             Aluno aluno = new Aluno();
             var lista = aluno.ListarAlunos();
+            lista.ForEach(a => {
+                dgvLista.Rows.Add();
+                dgvLista.Rows[lista.IndexOf(a)].Cells[colId.Index].Value = a.Id;
+                dgvLista.Rows[lista.IndexOf(a)].Cells[colNome.Index].Value = a.Nome;
+                dgvLista.Rows[lista.IndexOf(a)].Cells[colEmail.Index].Value = a.Email;
+                dgvLista.Rows[lista.IndexOf(a)].Cells[colTelefone.Index].Value = a.Telefone;
+                dgvLista.Rows[lista.IndexOf(a)].Cells[colAtivo.Index].Value = a.Ativo;
+            });
+        }
 
-            foreach (var item in lista)
-            {
-                lstLista.Items.Add(item.Nome +" - "+ item.Email +" - "+ item.Telefone +" - "+ item.Ativo);
-            }
+        private void numericUpDown1_Enter(object sender, EventArgs e)
+        {
+            numericUpDown1.Maximum = (decimal) Aluno.ObterQtideRegistro();
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            dgvLista.Rows.Clear();
+
+            Aluno aluno = new Aluno();
+            var lista = aluno.ListarAlunos(0,(int)numericUpDown1.Value);
+            lista.ForEach(a => {
+                dgvLista.Rows.Add();
+                dgvLista.Rows[lista.IndexOf(a)].Cells[colId.Index].Value = a.Id;
+                dgvLista.Rows[lista.IndexOf(a)].Cells[colNome.Index].Value = a.Nome;
+                dgvLista.Rows[lista.IndexOf(a)].Cells[colEmail.Index].Value = a.Email;
+                dgvLista.Rows[lista.IndexOf(a)].Cells[colTelefone.Index].Value = a.Telefone;
+                dgvLista.Rows[lista.IndexOf(a)].Cells[colAtivo.Index].Value = a.Ativo;
+            });
         }
     }
 }
