@@ -40,12 +40,23 @@ namespace liveCSharp
         public void LimparCampos()
         {
             txtId.Clear();
+            txtId.ReadOnly = true;
             txtNome.Clear();
             txtEmail.Clear();
+            txtEmail.ReadOnly = false;
             txtTelefone.Clear();
             txtSenha.Clear();
+            txtSenha.ReadOnly = false;
             txtConfirmaSenha.Clear();
-            chkAtivo.Checked = false;
+            chkAtivo.Enabled = false;
+            chkAtivo.Checked = true;
+            btnInserir.Enabled = true;
+            btnUpdate.Text = "...";
+            btnUpdate.Width = 26;
+            btnUpdate.Height = 23;
+            btnAlterar.Enabled = false;
+            chkVisualizar.Enabled = true;
+            btnExcluir.Enabled = false; 
         }
 
         private void btnFechar_Click(object sender, EventArgs e)
@@ -74,12 +85,78 @@ namespace liveCSharp
             numericUpDown1.Maximum = (decimal) Aluno.ObterQtideRegistro();
         }
 
-        private void btnBuscar_Click(object sender, EventArgs e)
+        private void chkVisualizar_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkVisualizar.Checked)
+                txtSenha.UseSystemPasswordChar = false;
+            else
+                txtSenha.UseSystemPasswordChar = true;
+        }
+
+        private void btnAlterar_Click(object sender, EventArgs e)
+        {
+            Aluno aluno = new Aluno();
+            aluno.Id = int.Parse(txtId.Text);
+            aluno.Nome = txtNome.Text;
+            aluno.Email = txtEmail.Text;
+            aluno.Telefone = txtTelefone.Text;
+            aluno.Senha = txtSenha.Text;
+            aluno.Ativo = chkAtivo.Checked;
+            aluno.Alterar(aluno);
+
+            MessageBox.Show($"Aluno {aluno.Nome} alterado com sucesso! ");
+            LimparCampos();
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            Aluno aluno = new Aluno();
+
+            if (btnUpdate.Text == "...")
+            {
+                txtId.ReadOnly = false;
+                txtId.Focus();
+                btnInserir.Enabled = false;
+                chkAtivo.Enabled = true;
+                btnUpdate.Text = "Update";
+                chkVisualizar.Enabled = false;
+                chkAtivo.Checked = false;
+            }
+            else if (btnUpdate.Text == "Update")
+            {
+                if (txtId.Text != string.Empty)
+                {
+                    btnAlterar.Enabled = true;
+                    btnExcluir.Enabled = true;
+
+                    aluno.ConsultarPorId(int.Parse(txtId.Text));
+                    txtNome.Text = aluno.Nome;
+                    txtEmail.Text = aluno.Email;
+                    txtEmail.ReadOnly = true;
+                    txtTelefone.Text = aluno.Telefone;
+                    txtSenha.Text = aluno.Senha;
+                    txtSenha.ReadOnly = true;
+                    chkAtivo.Checked = aluno.Ativo;
+                }
+            }
+
+        }
+
+        private void btnExcluir_Click(object sender, EventArgs e)
+        {
+            Aluno aluno = new Aluno();
+            aluno.Excluir(int.Parse(txtId.Text));
+            MessageBox.Show($"Aluno excluido com sucesso");
+
+            LimparCampos();
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             dgvLista.Rows.Clear();
 
             Aluno aluno = new Aluno();
-            var lista = aluno.ListarAlunos(0,(int)numericUpDown1.Value);
+            var lista = aluno.ListarAlunos(0, (int)numericUpDown1.Value);
             lista.ForEach(a => {
                 dgvLista.Rows.Add();
                 dgvLista.Rows[lista.IndexOf(a)].Cells[colId.Index].Value = a.Id;

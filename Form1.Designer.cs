@@ -43,24 +43,26 @@
             this.btnListar = new System.Windows.Forms.Button();
             this.chkAtivo = new System.Windows.Forms.CheckBox();
             this.dgvLista = new System.Windows.Forms.DataGridView();
-            this.txtConfirmaSenha = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.chkVisualizar = new System.Windows.Forms.CheckBox();
-            this.btnFechar = new System.Windows.Forms.Button();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colNome = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colEmail = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTelefone = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAtivo = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.txtConfirmaSenha = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.chkVisualizar = new System.Windows.Forms.CheckBox();
+            this.btnFechar = new System.Windows.Forms.Button();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.btnExcluir = new System.Windows.Forms.Button();
+            this.btnUpdate = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLista)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnInserir
             // 
-            this.btnInserir.Location = new System.Drawing.Point(132, 405);
+            this.btnInserir.Location = new System.Drawing.Point(96, 384);
             this.btnInserir.Name = "btnInserir";
             this.btnInserir.Size = new System.Drawing.Size(75, 23);
             this.btnInserir.TabIndex = 0;
@@ -82,7 +84,7 @@
             this.txtId.Location = new System.Drawing.Point(217, 21);
             this.txtId.Name = "txtId";
             this.txtId.ReadOnly = true;
-            this.txtId.Size = new System.Drawing.Size(100, 20);
+            this.txtId.Size = new System.Drawing.Size(71, 20);
             this.txtId.TabIndex = 2;
             this.txtId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -153,16 +155,18 @@
             // 
             // btnAlterar
             // 
-            this.btnAlterar.Location = new System.Drawing.Point(213, 405);
+            this.btnAlterar.Enabled = false;
+            this.btnAlterar.Location = new System.Drawing.Point(177, 384);
             this.btnAlterar.Name = "btnAlterar";
             this.btnAlterar.Size = new System.Drawing.Size(75, 23);
             this.btnAlterar.TabIndex = 11;
             this.btnAlterar.Text = "Alterar";
             this.btnAlterar.UseVisualStyleBackColor = true;
+            this.btnAlterar.Click += new System.EventHandler(this.btnAlterar_Click);
             // 
             // btnListar
             // 
-            this.btnListar.Location = new System.Drawing.Point(294, 405);
+            this.btnListar.Location = new System.Drawing.Point(258, 384);
             this.btnListar.Name = "btnListar";
             this.btnListar.Size = new System.Drawing.Size(75, 23);
             this.btnListar.TabIndex = 12;
@@ -173,6 +177,8 @@
             // chkAtivo
             // 
             this.chkAtivo.AutoSize = true;
+            this.chkAtivo.Checked = true;
+            this.chkAtivo.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkAtivo.Enabled = false;
             this.chkAtivo.Location = new System.Drawing.Point(346, 23);
             this.chkAtivo.Name = "chkAtivo";
@@ -202,43 +208,6 @@
             this.dgvLista.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvLista.Size = new System.Drawing.Size(570, 165);
             this.dgvLista.TabIndex = 14;
-            // 
-            // txtConfirmaSenha
-            // 
-            this.txtConfirmaSenha.Location = new System.Drawing.Point(217, 151);
-            this.txtConfirmaSenha.Name = "txtConfirmaSenha";
-            this.txtConfirmaSenha.Size = new System.Drawing.Size(100, 20);
-            this.txtConfirmaSenha.TabIndex = 16;
-            this.txtConfirmaSenha.UseSystemPasswordChar = true;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(128, 158);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(83, 13);
-            this.label6.TabIndex = 15;
-            this.label6.Text = "Confirma senha:";
-            // 
-            // chkVisualizar
-            // 
-            this.chkVisualizar.AutoSize = true;
-            this.chkVisualizar.Location = new System.Drawing.Point(346, 127);
-            this.chkVisualizar.Name = "chkVisualizar";
-            this.chkVisualizar.Size = new System.Drawing.Size(70, 17);
-            this.chkVisualizar.TabIndex = 17;
-            this.chkVisualizar.Text = "Visualizar";
-            this.chkVisualizar.UseVisualStyleBackColor = true;
-            // 
-            // btnFechar
-            // 
-            this.btnFechar.Location = new System.Drawing.Point(375, 405);
-            this.btnFechar.Name = "btnFechar";
-            this.btnFechar.Size = new System.Drawing.Size(75, 23);
-            this.btnFechar.TabIndex = 18;
-            this.btnFechar.Text = "Fechar";
-            this.btnFechar.UseVisualStyleBackColor = true;
-            this.btnFechar.Click += new System.EventHandler(this.btnFechar_Click);
             // 
             // colId
             // 
@@ -281,20 +250,55 @@
             this.colAtivo.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.colAtivo.Width = 40;
             // 
+            // txtConfirmaSenha
+            // 
+            this.txtConfirmaSenha.Location = new System.Drawing.Point(217, 151);
+            this.txtConfirmaSenha.Name = "txtConfirmaSenha";
+            this.txtConfirmaSenha.Size = new System.Drawing.Size(100, 20);
+            this.txtConfirmaSenha.TabIndex = 16;
+            this.txtConfirmaSenha.UseSystemPasswordChar = true;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(128, 158);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(83, 13);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Confirma senha:";
+            // 
+            // chkVisualizar
+            // 
+            this.chkVisualizar.AutoSize = true;
+            this.chkVisualizar.Location = new System.Drawing.Point(346, 127);
+            this.chkVisualizar.Name = "chkVisualizar";
+            this.chkVisualizar.Size = new System.Drawing.Size(70, 17);
+            this.chkVisualizar.TabIndex = 17;
+            this.chkVisualizar.Text = "Visualizar";
+            this.chkVisualizar.UseVisualStyleBackColor = true;
+            this.chkVisualizar.CheckedChanged += new System.EventHandler(this.chkVisualizar_CheckedChanged);
+            // 
+            // btnFechar
+            // 
+            this.btnFechar.Location = new System.Drawing.Point(420, 384);
+            this.btnFechar.Name = "btnFechar";
+            this.btnFechar.Size = new System.Drawing.Size(75, 23);
+            this.btnFechar.TabIndex = 18;
+            this.btnFechar.Text = "Fechar";
+            this.btnFechar.UseVisualStyleBackColor = true;
+            this.btnFechar.Click += new System.EventHandler(this.btnFechar_Click);
+            // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(12, 367);
+            this.btnBuscar.Location = new System.Drawing.Point(0, 0);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(75, 23);
-            this.btnBuscar.TabIndex = 19;
-            this.btnBuscar.Text = "Buscar";
-            this.btnBuscar.UseVisualStyleBackColor = true;
-            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            this.btnBuscar.TabIndex = 23;
             // 
             // numericUpDown1
             // 
             this.numericUpDown1.AutoSize = true;
-            this.numericUpDown1.Location = new System.Drawing.Point(91, 370);
+            this.numericUpDown1.Location = new System.Drawing.Point(12, 358);
             this.numericUpDown1.Minimum = new decimal(new int[] {
             1,
             0,
@@ -308,13 +312,38 @@
             0,
             0,
             0});
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             this.numericUpDown1.Enter += new System.EventHandler(this.numericUpDown1_Enter);
+            // 
+            // btnExcluir
+            // 
+            this.btnExcluir.Enabled = false;
+            this.btnExcluir.Location = new System.Drawing.Point(339, 384);
+            this.btnExcluir.Name = "btnExcluir";
+            this.btnExcluir.Size = new System.Drawing.Size(75, 23);
+            this.btnExcluir.TabIndex = 21;
+            this.btnExcluir.Text = "Excluir";
+            this.btnExcluir.UseVisualStyleBackColor = true;
+            this.btnExcluir.Click += new System.EventHandler(this.btnExcluir_Click);
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.AutoSize = true;
+            this.btnUpdate.Location = new System.Drawing.Point(291, 19);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(26, 23);
+            this.btnUpdate.TabIndex = 22;
+            this.btnUpdate.Text = "...";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(594, 431);
+            this.Controls.Add(this.btnUpdate);
+            this.Controls.Add(this.btnExcluir);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.btnFechar);
@@ -373,6 +402,8 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn colAtivo;
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Button btnExcluir;
+        private System.Windows.Forms.Button btnUpdate;
     }
 }
 

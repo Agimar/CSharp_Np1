@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace liveCSharp.App
 {
@@ -92,12 +93,26 @@ namespace liveCSharp.App
 
         public void Alterar(Aluno aluno)
         {
-            var ativo = (aluno.Ativo) ? "1" : "0";
+            string ativo = (aluno.Ativo) ? "1" : "0";
             var cmd = Conexao.Abrir();
             cmd.CommandType = System.Data.CommandType.Text;
-            cmd.CommandText = "update aluno set nome='"+aluno.Nome+"',email='"+aluno.Email+"',telefone='"+aluno.Telefone+"',senha= md5('"+aluno.Senha+"'),ativo='"+ativo+"' where id=" +aluno.Id;
+            cmd.CommandText = "update alunos set nome='"+aluno.Nome+"',email='"+aluno.Email+"',telefone='"+aluno.Telefone+"',senha= md5('"+aluno.Senha+"'),ativo="+ativo+" where id=" +aluno.Id;
            
             cmd.ExecuteNonQuery();
+        }
+
+        public void Excluir(int id)
+        {
+            var cmd = Conexao.Abrir();
+
+            /** Alterar ativo = false => inativo
+                cmd.CommandText = "update alunos set ativo=0 where id=" + id;
+                cmd.ExecuteNonQuery();
+            */
+            
+            /** Excluir da tabela */
+                cmd.CommandText = "delete from alunos where id =" + id;
+                cmd.ExecuteNonQuery();
         }
 
     }
